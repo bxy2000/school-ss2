@@ -15,7 +15,7 @@ import com.bosic.school.service.StudentService;
 import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-hibernate.xml"})
+@ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class StudentServiceImplTest {
 	@Autowired
 	private StudentService studentService;
