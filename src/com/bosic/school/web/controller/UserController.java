@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.bosic.school.domain.User;
 import com.bosic.school.service.UserService;
 import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionContext;
 
 @Controller
 @Scope("prototype")
@@ -40,7 +42,12 @@ public class UserController {
 	}
 	// 验证用户是否合法
 	public String validate() throws Exception {
+		ActionContext ctx = ActionContext.getContext();
+		
 		if(userService.login(username, password)){
+			User user = userService.find("where u.username = ?", username);
+			ctx.getSession().put("user", user);
+			
 			return Action.SUCCESS;
 		} else {
 			return Action.INPUT;
@@ -48,6 +55,10 @@ public class UserController {
 	}
 	// 退出
 	public String logout() throws Exception {
+		ActionContext ctx = ActionContext.getContext();
+		
+		ctx.getSession().remove("user");
+		
 		return "logout";
 	}
 }

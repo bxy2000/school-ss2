@@ -20,6 +20,27 @@
 	<constant name="struts.configuration.xml.reload" value="true" />
 
 	<package name="default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="authInterceptor" class="com.bosic.school.web.interceptor.AuthInterceptor" />
+			<interceptor-stack name="authStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="authStack" />
+		
+		<!-- 打开网站第一个进入的action -->
+		<default-action-ref name="login" />
+		
+		<global-results>
+			<result name="error">/error.jsp</result>
+			<result name="login" type="redirect">/login</result>
+		</global-results>
+		
+		<!-- 全局异常处理 -->
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception" />
+		</global-exception-mappings>
 	</package>
 	
 	<include file="struts-user.xml" />
