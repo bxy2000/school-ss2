@@ -9,6 +9,8 @@
 <title>编辑</title>
 </head>
 <body>
+	<jsp:include page="../share/_top.jsp" />
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-3 col-md-6">

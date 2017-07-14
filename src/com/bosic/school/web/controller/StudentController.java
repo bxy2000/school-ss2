@@ -23,6 +23,7 @@ public class StudentController {
 	private Long[] ids; // 批量删除
 	private Student student; // 新增，修改
 	private PagedList<Student> students; // 分页查询
+	private String search;
 
 	public Long getId() {
 		return id;
@@ -56,15 +57,28 @@ public class StudentController {
 		this.students = students;
 	}
 
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
 	// --------------------------
 	// action 行为集合
 	// --------------------------
 	public String index() throws Exception {
 		int pageIndex = id == null ? 1 : id.intValue();
 		int pageSize = 15;
-
-		students = studentService.findPage(pageIndex, pageSize, "", "order by id");
-
+		
+		if(search == null || search.equals("")){
+			students = studentService.findPage(pageIndex, pageSize, "", "order by id");
+		} else {
+			// from Student u where u.studentName like '%张三%' order by u.id
+			students = studentService.findPage(pageIndex, pageSize, 
+					"where u.studentName like ?", "order by id", "%"+search+"%");
+		}
 		return "index";
 	}
 

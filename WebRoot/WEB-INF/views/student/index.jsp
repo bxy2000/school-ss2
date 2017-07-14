@@ -21,6 +21,8 @@
 </style>
 </head>
 <body>
+	<jsp:include page="../share/_top.jsp" />
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -38,8 +40,9 @@
 					</div>
 					<div class="col-md-4">
 						<div class="input-group right">
-							<input type="text" class="form-control" placeholder="需要查询的内容..."> <span class="input-group-btn">
-								<button class="btn btn-default" type="button">查询</button>
+							<input type="text" class="form-control" placeholder="需要查询的内容..." id="search" value="${param.search }">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" onclick="search('${pageContext.request.contextPath }/admin/student/index')">查询</button>
 							</span>
 						</div>
 					</div>
@@ -100,21 +103,21 @@
 				</form>
 				<nav>
 					<ul class="pagination navbar-right">
-						<li><a href="${pageContext.request.contextPath }/admin/student/index?id=${students.prev}" aria-label="前一页"> <span
+						<li><a href="${pageContext.request.contextPath }/admin/student/index?id=${students.prev}&search=${param.search}" aria-label="前一页"> <span
 								aria-hidden="true">&laquo;</span>
 						</a></li>
 						<c:forEach begin="1" end="${students.total }" step="1" var="i">
 							<c:choose>
 								<c:when test="${i == students.index }">
-									<li class="active"><a href="${pageContext.request.contextPath }/admin/student/index?id=${i}">${i}</a></li>
+									<li class="active"><a href="${pageContext.request.contextPath }/admin/student/index?id=${i}&search=${param.search}">${i}</a></li>
 								</c:when>
 								<c:otherwise>
-									<li><a href="${pageContext.request.contextPath }/admin/student/index?id=${i}">${i}</a></li>						
+									<li><a href="${pageContext.request.contextPath }/admin/student/index?id=${i}&search=${param.search}">${i}</a></li>						
 								</c:otherwise>
 							</c:choose>
 
 						</c:forEach>
-						<li><a href="${pageContext.request.contextPath }/admin/student/index?id=${students.next}" aria-label="后一页"> <span
+						<li><a href="${pageContext.request.contextPath }/admin/student/index?id=${students.next}&search=${param.search}" aria-label="后一页"> <span
 								aria-hidden="true">&raquo;</span>
 						</a></li>
 					</ul>
@@ -133,6 +136,14 @@
 			for (var i = 0; i < ids.length; i++) {
 				ids[i].checked = checked;
 			}
+		}
+		
+		// 条件查询
+		function search(url){
+			var text = document.getElementById('search').value;
+			
+			
+			window.location.href=url+"?search="+text;
 		}
 
 		// 删除单条记录
